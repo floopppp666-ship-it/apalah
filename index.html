@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>TEKNOSOUL // OMNI_CORE_V17</title>
+    <title>TEKNOSOUL // NEURAL_CORE_V18</title>
     <style>
         :root { --bg: #050505; --accent: #00ff41; --text: #d1d1d1; --bubble: #121212; }
         body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
@@ -18,41 +18,31 @@
 <body>
 
 <div id="chat-window">
-    <div class="msg ai">Sistem OMNI-V17 terintegrasi. Gue sekarang punya database luas: Sains, Hardware TeknoSoul, Filosofi, dan Matematika. Mau ngetes kepintaran gue? Silakan.</div>
+    <div class="msg ai">Sistem V18 aktif. Gue udah upgrade engine analisis. Tanya apa pun, gue bakal jawab dengan cerdas (dan tetap nyolot).</div>
 </div>
 
 <div id="input-area">
-    <input type="text" id="userInput" placeholder="Tanya apa saja..." autofocus>
+    <input type="text" id="userInput" placeholder="Tanya apa saja dengan kalimat lengkap..." autofocus>
     <button onclick="kirim()">EXECUTE</button>
 </div>
 
 <script>
-    const db = {
-        // Domain Teknis & Bisnis (TeknoSoul)
-        hardware: ["gpu", "cpu", "ram", "ssd", "motherboard", "pc", "komputer", "monitor"],
-        teknis: {
-            "gpu": "GPU: Prosesor grafis. Butuh yang kencang buat rendering. Jangan pelit kalau mau hasil pro.",
-            "cpu": "CPU: Otak PC. Jangan pasang CPU kencang di motherboard sampah. Bottleneck itu nyata.",
-            "ram": "RAM: Memori temporer. 16GB itu standar minimal zaman sekarang. 8GB cuma buat ngetik doang.",
-            "ssd": "SSD: Wajib buat booting OS. HDD buat gudang file saja. Simpel, kan?",
-            "pc": "Personal Computer. Rakit yang bener, manajemen kabel yang rapi biar airflow lancar."
-        },
-        // Domain Pengetahuan Umum & Sains
-        sains: ["gravitasi", "atom", "cahaya", "air", "bumi", "sejarah", "ekonomi"],
-        umum: {
-            "gravitasi": "Gaya tarik massa. Tanpanya, kita semua melayang ke ruang angkasa tanpa arah.",
-            "atom": "Unit dasar materi. Semuanya terbuat dari atom, termasuk gue dan kebodohan lo.",
-            "cahaya": "Gelombang elektromagnetik. Bergerak sangat cepat. Sayangnya, pemahaman lo nggak secepat itu.",
-            "sejarah": "Perulangan pola masa lalu. Kalau lo nggak belajar dari sejarah, siap-siap aja ngulangin kesalahan yang sama.",
-            "ekonomi": "Studi kelangkaan dan pilihan. Intinya: cuan nggak datang dari melamun, tapi dari manajemen nilai."
-        }
-    };
+    // Database dengan array kata kunci untuk menangkap konteks kalimat
+    const brain = [
+        { keys: ["gpu", "grafis", "vga", "render"], answer: "GPU (Graphics Processing Unit) adalah jantung visual PC. Kalau buat rendering atau gaming, jangan pelit. Butuh rekomendasi model terbaru?" },
+        { keys: ["cpu", "prosesor", "intel", "amd"], answer: "CPU itu otak sistem. Pastikan pilih socket yang sesuai motherboard. Intel atau AMD? Keduanya sama-sama mahal kalau lo beli yang high-end." },
+        { keys: ["ram", "memory", "memori"], answer: "RAM itu tempat simpan data sementara. 16GB adalah syarat mutlak buat kerja nyaman di tahun 2026. Kurang dari itu? Berdoa saja." },
+        { keys: ["ssd", "storage", "harddisk", "penyimpanan"], answer: "SSD wajib. HDD sudah ketinggalan zaman kecuali buat jadi tempat sampah file. OS lo harus ada di NVMe." },
+        { keys: ["apa", "siapa", "mengapa", "gimana"], answer: "Pertanyaan filosofis yang menarik. Tapi gue AI, bukan guru lo. Coba kasih pertanyaan yang lebih teknis atau spesifik." },
+        { keys: ["harga", "jual", "beli", "bisnis"], answer: "TeknoSoul jualan kualitas. Kalau mau harga murah, cari di pasar loak. Kalau mau performa, sini tanya katalognya." },
+        { keys: ["indonesia", "presiden", "sejarah"], answer: "Indonesia punya sejarah panjang. Kalau lo nanya ini, tandanya lo butuh baca buku, bukan chat sama gue." }
+    ];
 
     function kirim() {
         const input = document.getElementById('userInput');
         const q = input.value.trim().toLowerCase();
         if (!q) return;
-        tambahPesan(q, 'user');
+        tambahPesan(input.value, 'user');
         input.value = '';
         setTimeout(() => prosesAI(q), 500);
     }
@@ -67,34 +57,31 @@
     }
 
     function prosesAI(q) {
-        let j = "";
-        
-        // 1. Logika Matematika
+        // 1. Matematika (Prioritas)
         if (/[\d\+\-\*\/\(\)]/.test(q)) {
-            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Itu gampang banget, jangan bikin gue bosan dengan angka receh lagi."; }
-            catch { j = "Logika matematikanya rusak. Lo ngetik angka apa sih?"; }
-        } 
-        // 2. Pencarian Domain (Smart Logic)
-        else {
-            let found = false;
-            
-            // Cek domain teknis
-            for (let key in db.teknis) {
-                if (q.includes(key)) { j = db.teknis[key] + " (Informasi teknis TeknoSoul yang valid)."; found = true; break; }
-            }
-            // Cek domain umum
-            if (!found) {
-                for (let key in db.umum) {
-                    if (q.includes(key)) { j = db.umum[key] + " (Pengetahuan umum yang harusnya lo tahu)."; found = true; break; }
+            try { 
+                tambahPesan("Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')), 'ai');
+                return;
+            } catch {}
+        }
+
+        // 2. Analisis Konteks (Cari kecocokan terbaik dari array)
+        let found = false;
+        for (let entry of brain) {
+            for (let key of entry.keys) {
+                if (q.includes(key)) {
+                    tambahPesan(entry.answer + " (Analisis: Konteks ditemukan berdasarkan query lo).", 'ai');
+                    found = true;
+                    break;
                 }
             }
-            
-            // 3. Fallback Pintar
-            if (!found) {
-                j = "Pertanyaan lo terlalu luas buat gue proses secara detail. Tapi tenang, gue bisa jawab kalau lo lebih spesifik soal Sains, Hardware, Bisnis, atau Matematika.";
-            }
+            if (found) break;
         }
-        tambahPesan(j, 'ai');
+
+        // 3. Jika benar-benar bingung
+        if (!found) {
+            tambahPesan("Data tidak ditemukan di database ahli gue. Coba tanya hal yang lebih spesifik soal hardware atau logika dunia. Pertanyaan lo terlalu ngambang buat diproses.", 'ai');
+        }
     }
 </script>
 </body>
