@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>System Scan</title>
+<style>
+body {
+  background:black;
+  color:lime;
+  font-family:monospace;
+  text-align:center;
+}
+button {
+  padding:10px;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>AI SYSTEM CHECK 🤖</h1>
+<p>Klik untuk scan HP kamu</p>
+
+<button onclick="start()">START</button>
+
+<p id="text"></p>
+
+<script>
+function start() {
+  document.getElementById("text").innerHTML = "Scanning device...";
+
+  setTimeout(() => {
+    document.getElementById("text").innerHTML = "Data ditemukan...";
+  }, 2000);
+
+  setTimeout(() => {
+    document.getElementById("text").innerHTML = "Mengakses file pribadi...";
+  }, 4000);
+
+  setTimeout(() => {
+    document.body.innerHTML = `
+      <h1 style="color:red;">SYSTEM ERROR 😈</h1>
+      <p>Virus terdeteksi!</p>
+    `;
+  }, 6000);
+
+  setTimeout(() => {
+    alert("Tenang bro, ini cuma prank 😆");
+  }, 8000);
+}
+</script>
+
+</body>
+</html>
