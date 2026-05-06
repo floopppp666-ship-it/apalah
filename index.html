@@ -1,54 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>System Scan</title>
-<style>
-body {
-  background:black;
-  color:lime;
-  font-family:monospace;
-  text-align:center;
-}
-button {
-  padding:10px;
-  font-size:18px;
-}
-</style>
+    <title>AI Nyolot</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; background: #121212; color: #fff; }
+        #output { border: 1px solid #444; padding: 20px; width: 80%; margin: 20px auto; min-height: 100px; }
+    </style>
 </head>
-
 <body>
+    <h1>Tanya Sesuatu, Dasar Manusia!</h1>
+    <input type="text" id="userInput" placeholder="Mau tanya apa?" style="width: 300px; padding: 10px;">
+    <button onclick="jawab()">Tanya</button>
+    <div id="output">...</div>
 
-<h1>AI SYSTEM CHECK 🤖</h1>
-<p>Klik untuk scan HP kamu</p>
-
-<button onclick="start()">START</button>
-
-<p id="text"></p>
-
-<script>
-function start() {
-  document.getElementById("text").innerHTML = "Scanning device...";
-
-  setTimeout(() => {
-    document.getElementById("text").innerHTML = "Data ditemukan...";
-  }, 2000);
-
-  setTimeout(() => {
-    document.getElementById("text").innerHTML = "Mengakses file pribadi...";
-  }, 4000);
-
-  setTimeout(() => {
-    document.body.innerHTML = `
-      <h1 style="color:red;">SYSTEM ERROR 😈</h1>
-      <p>Virus terdeteksi!</p>
-    `;
-  }, 6000);
-
-  setTimeout(() => {
-    alert("Tenang bro, ini cuma prank 😆");
-  }, 8000);
-}
-</script>
-
+    <script>
+        function jawab() {
+            const input = document.getElementById('userInput').value;
+            const output = document.getElementById('output');
+            const jawabanNyolot = [
+                "Duh, pertanyaan gitu aja nanya saya?",
+                "Serius? Cuma itu yang ada di otak kamu?",
+                "Baca buku deh, jangan males jadi orang.",
+                "Kamu nanya saya karena nggak punya teman ya?",
+                "Aduh, malas banget saya jawab pertanyaan ginian."
+            ];
+            const randomJawaban = jawabanNyolot[Math.floor(Math.random() * jawabanNyolot.length)];
+            output.innerText = randomJawaban;
+        }
+    </script>
 </body>
 </html>
