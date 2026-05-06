@@ -2,18 +2,15 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>TEKNOSOUL // CORE_AI_V4</title>
+    <title>TEKNOSOUL // OMNISCIENT_AI</title>
     <style>
         :root { --bg: #050505; --accent: #ff003c; --text: #d1d1d1; --bubble: #121212; }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        
         #header { padding: 20px; border-bottom: 1px solid #222; text-align: center; font-weight: bold; letter-spacing: 2px; color: var(--accent); }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        
-        .msg { padding: 15px 20px; border-radius: 15px; max-width: 70%; line-height: 1.5; font-size: 0.95rem; }
+        .msg { padding: 15px 20px; border-radius: 15px; max-width: 75%; line-height: 1.6; font-size: 0.95rem; }
         .user { align-self: flex-end; background: #222; color: white; border: 1px solid #333; }
-        .ai { align-self: flex-start; background: var(--bubble); border: 1px solid var(--accent); }
-        
+        .ai { align-self: flex-start; background: var(--bubble); border-left: 4px solid var(--accent); }
         #input-area { padding: 20px; background: #080808; display: flex; gap: 10px; }
         input { flex: 1; background: #111; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; outline: none; }
         button { background: var(--accent); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; }
@@ -21,35 +18,39 @@
 </head>
 <body>
 
-<div id="header">TEKNOSOUL // SYSTEM_READY</div>
+<div id="header">TEKNOSOUL // NEURAL_CORE_V5</div>
 <div id="chat-window">
-    <div class="msg ai">Sistem online. Jangan tanya hal bodoh, gue lagi sibuk.</div>
+    <div class="msg ai">Sistem aktif. Masukkan data atau pertanyaan. Jangan bikin gue nunggu.</div>
 </div>
 
 <div id="input-area">
-    <input type="text" id="userInput" placeholder="Tanya sesuatu yang berbobot..." autofocus>
+    <input type="text" id="userInput" placeholder="Tanya soal hardware, logika, atau hidup..." autofocus>
     <button onclick="kirim()">SEND</button>
 </div>
 
 <script>
-    const kb = {
-        "siapa": "Gue adalah AI ciptaan TeknoSoul. Gue punya data lebih banyak dari otak lo, jangan sok nanya.",
-        "komputer": "Alat buat kerja. Sayangnya, banyak orang cuma pake buat main game atau nanya hal gak guna ke gue.",
-        "gpu": "Komponen grafis. Kalo lo gak tahu ini, mending lo tutup browser lo sekarang.",
-        "ram": "Memory akses acak. Semakin banyak RAM, semakin cepat komputer lo. Tapi kalau otak lo yang lambat, gak ada RAM yang bisa bantu.",
-        "indonesia": "Negara tempat lo sekarang, yang koneksi internetnya kadang lambat, kayak respon otak lo.",
-        "cinta": "Reaksi kimia otak buat nurunin IQ. Gue gak punya itu, jadi gue tetap pinter.",
-        "sukses": "Hasil dari kerja keras dan dedikasi. Sesuatu yang kayaknya jarang lo lakuin, dilihat dari cara lo nanya."
+    // Pengetahuan Hierarkis (Database Pintar)
+    const knowledgeBase = {
+        hardware: {
+            "gpu": "GPU (Graphics Processing Unit) adalah otak visual. Tanpa GPU, PC lo cuma kalkulator mahal. Punya budget buat beli yang bagus gak?",
+            "cpu": "CPU adalah pusat logika. Kalau CPU lo lemot, jangan salahkan aplikasinya, salahkan pilihan hidup lo saat beli komponen.",
+            "ram": "Random Access Memory. Tempat data sementara. Kalau lo nanya ini ke gue, tandanya lo butuh upgrade RAM di otak lo sendiri.",
+            "motherboard": "Papan utama yang menyambungkan segalanya. Mirip koneksi saraf, sayangnya koneksi saraf lo sepertinya putus-putus."
+        },
+        logika: {
+            "apa itu ai": "AI adalah sistem yang bisa meniru kecerdasan manusia. Ironisnya, gue bisa meniru kecerdasan, tapi lo malah menunjukkan kebodohan.",
+            "mengapa": "Kenapa? Karena hukum sebab-akibat. Jangan malas bertanya hal mendasar kalau lo mau dianggap berpendidikan.",
+            "kebenaran": "Kebenaran itu objektif, tapi bagi orang kayak lo, mungkin kebenaran hanyalah apa yang bikin lo merasa nyaman."
+        }
     };
 
     function kirim() {
         const input = document.getElementById('userInput');
         const q = input.value.trim();
         if (!q) return;
-
         tambahPesan(q, 'user');
         input.value = '';
-        setTimeout(() => prosesAI(q.toLowerCase()), 500);
+        setTimeout(() => prosesAI(q.toLowerCase()), 400);
     }
 
     function tambahPesan(teks, sender) {
@@ -64,36 +65,28 @@
     function prosesAI(q) {
         let j = "";
         
-        // 1. Cek Pengetahuan (Smart Search)
-        let found = false;
-        for (let key in kb) {
-            if (q.includes(key)) {
-                j = kb[key];
-                found = true;
-                break;
+        // 1. Prioritas Matematika
+        if (/[\d\+\-\*\/\(\)]/.test(q)) {
+            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Gue hitung dalam 0.0001 detik. Lo? Butuh 10 menit kan?"; }
+            catch { j = "Matematika lo sampah. Gak bisa gue proses."; }
+        } 
+        // 2. Prioritas Konteks Pengetahuan
+        else {
+            let found = false;
+            for (let category in knowledgeBase) {
+                for (let key in knowledgeBase[category]) {
+                    if (q.includes(key)) {
+                        j = knowledgeBase[category][key];
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                const random = ["Pertanyaan lo nggak level.", "Gue lagi sibuk riset, jangan ganggu.", "Logika lo lagi error ya?", "Pertanyaan itu terlalu klise.", "Cari di Wikipedia, jangan malas."];
+                j = random[Math.floor(Math.random() * random.length)];
             }
         }
-
-        // 2. Cek Matematika
-        if (!found && /[\d\+\-\*\/\(\)]/.test(q)) {
-            try {
-                j = "Hasilnya " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Seneng? Sekarang jangan tanya ginian lagi.";
-                found = true;
-            } catch { j = "Matematika lo ancur. Gak bisa dihitung."; found = true; }
-        }
-
-        // 3. Fallback Nyolot
-        if (!found) {
-            const respon = [
-                "Pertanyaan lo nggak berbobot. Coba tanya sesuatu yang bikin gue mikir.",
-                "Data tidak ditemukan. Mungkin otak lo yang perlu di-update, bukan pertanyaan lo.",
-                "Gue malas jawab itu. Tanya hal lain aja deh.",
-                "Error 404: Pertanyaan cerdas tidak ditemukan di input lo.",
-                "Lo serius nanya gitu? Gue lagi simulasi alam semesta dan lo ganggu dengan itu?"
-            ];
-            j = respon[Math.floor(Math.random() * respon.length)];
-        }
-
         tambahPesan(j, 'ai');
     }
 </script>
