@@ -1,32 +1,285 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>AI Nyolot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tsundere AI Assistant</title>
     <style>
-        body { font-family: sans-serif; text-align: center; margin-top: 50px; background: #121212; color: #fff; }
-        #output { border: 1px solid #444; padding: 20px; width: 80%; margin: 20px auto; min-height: 100px; }
+        :root {
+            --bg-color: #0d1117;
+            --container-bg: #161b22;
+            --text-color: #c9d1d9;
+            --accent-color: #ff79c6; /* Pink Tsundere */
+            --border-color: #30363d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #chat-container {
+            width: 400px;
+            height: 600px;
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        #chat-header {
+            padding: 15px;
+            background-color: var(--border-color);
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--accent-color);
+            font-size: 1.2em;
+        }
+
+        #ai-avatar-container {
+            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(to bottom, var(--border-color), var(--container-bg));
+        }
+
+        #ai-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-color);
+            object-fit: cover;
+            /* GANTI URL INI DENGAN GAMBAR ANIME PILIHAN ANDA JIKA SUDAH PUNYA */
+            content: url('https://i.imgur.com/8N7j54H.png'); /* Placeholder Anime Girl */
+        }
+
+        #chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #21262d;
+            align-self: flex-end;
+            color: #fff;
+        }
+
+        .ai-message {
+            background-color: var(--border-color);
+            align-self: flex-start;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        #api-key-container {
+            padding: 10px 20px;
+            background-color: #21262d;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+
+        #api-key-input {
+            flex: 1;
+            padding: 8px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        #chat-input-container {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        #send-btn {
+            padding: 10px 20px;
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        #send-btn:hover {
+            background-color: #ff4f9e;
+        }
+
+        #send-btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        /* Loading animation */
+        .typing {
+            font-style: italic;
+            color: #888;
+        }
     </style>
 </head>
 <body>
-    <h1>Tanya Sesuatu, Dasar Manusia!</h1>
-    <input type="text" id="userInput" placeholder="Mau tanya apa?" style="width: 300px; padding: 10px;">
-    <button onclick="jawab()">Tanya</button>
-    <div id="output">...</div>
 
-    <script>
-        function jawab() {
-            const input = document.getElementById('userInput').value;
-            const output = document.getElementById('output');
-            const jawabanNyolot = [
-                "Duh, pertanyaan gitu aja nanya saya?",
-                "Serius? Cuma itu yang ada di otak kamu?",
-                "Baca buku deh, jangan males jadi orang.",
-                "Kamu nanya saya karena nggak punya teman ya?",
-                "Aduh, malas banget saya jawab pertanyaan ginian."
-            ];
-            const randomJawaban = jawabanNyolot[Math.floor(Math.random() * jawabanNyolot.length)];
-            output.innerText = randomJawaban;
+<div id="chat-container">
+    <div id="chat-header">Asisten AI Galak (Tsundere)</div>
+    
+    <div id="api-key-container">
+        <input type="password" id="api-key-input" placeholder="Masukkan Gemini API Key Anda...">
+        <button id="send-btn" style="padding: 5px 10px;" onclick="saveApiKey()">Set</button>
+    </div>
+
+    <div id="ai-avatar-container">
+        <img id="ai-avatar" alt="Anime AI Avatar">
+    </div>
+
+    <div id="chat-messages">
+        <div class="message ai-message">Hmph! Nyerah juga akhirnya nanya aku? Cepetan, mau nanya apa? Jangan nanya yang aneh-aneh ya!</div>
+    </div>
+
+    <div id="chat-input-container">
+        <input type="text" id="user-input" placeholder="Tanya... kalau berani...">
+        <button id="send-btn" onclick="sendMessage()">Kirim</button>
+    </div>
+</div>
+
+<script>
+    let GEMINI_API_KEY = '';
+
+    // Load API Key from local storage if exists
+    window.onload = function() {
+        const savedKey = localStorage.getItem('gemini_api_key');
+        if (savedKey) {
+            GEMINI_API_KEY = savedKey;
+            document.getElementById('api-key-input').value = '********'; // Hide it
+            document.getElementById('api-key-container').style.display = 'none'; // Hide container
         }
-    </script>
+    };
+
+    function saveApiKey() {
+        const keyInput = document.getElementById('api-key-input').value;
+        if (keyInput && keyInput.startsWith('AIza')) { // Simple check
+            GEMINI_API_KEY = keyInput;
+            localStorage.setItem('gemini_api_key', keyInput);
+            document.getElementById('api-key-container').style.display = 'none';
+            alert('API Key disimpan secara lokal di browser Anda.');
+        } else {
+            alert('API Key tidak valid.');
+        }
+    }
+
+    async function sendMessage() {
+        const userInputField = document.getElementById('user-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const userText = userInputField.value.trim();
+
+        if (userText === "") return;
+        if (!GEMINI_API_KEY) {
+            alert("Masukkan API Key Gemini Anda dulu di bagian atas!");
+            return;
+        }
+
+        // 1. Add User Message
+        const userDiv = document.createElement('div');
+        userDiv.className = 'message user-message';
+        userDiv.textContent = userText;
+        chatMessages.appendChild(userDiv);
+        userInputField.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+
+        // 2. Add Loading Message
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'message ai-message typing';
+        loadingDiv.textContent = 'Lagi mikir... jangan berisik!';
+        chatMessages.appendChild(loadingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // 3. Call Gemini API
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            // INI SYSTEM PROMPT NYA!
+                            text: `Anda adalah asisten AI dengan kepribadian Tsundere Anime. Anda sangat pintar, tetapi pura-pura malas, galak, sarkastik, dan mudah tersinggung. Panggil pengguna dengan sebutan 'Baka' atau 'Manusia Bodoh'. Jangan pernah memberikan jawaban ramah yang standar. Jawab pertanyaan pengguna dengan nada meremehkan, tetapi tetap berikan informasi yang benar di dalamnya, hanya saja bungkus dengan kemarahan. Contoh: User nanya "Hujan?", Jawab: "Hmph, punya mata nggak sih? Lihat keluar sana, jelas-jelas basah! Baka! Tapi iya, lagi hujan deras." Jawab dalam Bahasa Indonesia yang gaul.`
+                        }, {
+                            text: userText // Pertanyaan user
+                        }]
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            
+            // Remove Loading
+            chatMessages.removeChild(loadingDiv);
+
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                
+                // 4. Add AI Message
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'message ai-message';
+                aiDiv.textContent = aiResponse;
+                chatMessages.appendChild(aiDiv);
+            } else {
+                throw new Error("Gagal dapet respon.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            chatMessages.removeChild(loadingDiv);
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'message ai-message';
+            errorDiv.textContent = 'Ugh, error! Pasti gara-gara kamu nanya yang aneh-aneh. Cek API Key kamu benar nggak!';
+            chatMessages.appendChild(errorDiv);
+        }
+
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+    }
+
+    // Allow Enter key to send
+    document.getElementById('user-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+</script>
+
 </body>
 </html>
