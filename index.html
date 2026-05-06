@@ -2,11 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>TEKNOSOUL // OMNI_CORE_V15</title>
+    <title>TEKNOSOUL // NEURAL_CORE_V16</title>
     <style>
         :root { --bg: #050505; --accent: #00ff41; --text: #d1d1d1; --bubble: #121212; }
         body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        #header { padding: 20px; border-bottom: 2px solid var(--accent); text-align: center; font-weight: bold; letter-spacing: 4px; color: var(--accent); }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .msg { padding: 15px 20px; border-radius: 5px; max-width: 85%; line-height: 1.6; border: 1px solid #333; }
         .user { align-self: flex-end; background: #222; }
@@ -18,9 +17,8 @@
 </head>
 <body>
 
-<div id="header">TEKNOSOUL // OMNI_CORE_V15</div>
 <div id="chat-window">
-    <div class="msg ai">Sistem OMNI-V15 aktif. Data terkoneksi. Hardware, Sains, Bisnis, Filosofi, atau Matematika? Tanya saja. Gue tahu semuanya, tapi gue malas ngebahas yang nggak penting.</div>
+    <div class="msg ai">Sistem Neural V16 aktif. Gue nggak cuma baca keyword, gue nganalisis konteks. Mau nanya apa? Gue tunggu.</div>
 </div>
 
 <div id="input-area">
@@ -29,29 +27,17 @@
 </div>
 
 <script>
-    // Pengetahuan Terintegrasi (Hardware, Sains, Bisnis, Umum)
-    const masterKnowledge = {
-        hardware: {
-            "gpu": "GPU: Untuk rendering 3D & gaming. Cari arsitektur terbaru. Jangan beli barang murah tapi performa sampah.",
-            "ram": "RAM: Memori jangka pendek. 16GB itu standar sekarang. Kalau masih 8GB, ya nikmati aja loading-nya yang lama.",
-            "cpu": "CPU: Otak sistem. Perhatikan core/thread. Bottleneck itu nyata kalau lo pasangin CPU jadul sama GPU modern.",
-            "ssd": "SSD: Wajib buat OS. HDD itu cuma buat nyimpan sampah file. Jangan bandingin kecepatannya."
-        },
-        sains: {
-            "gravitasi": "Gaya tarik antar massa. Kalau lo jatuh cinta, itu cuma reaksi kimia. Jangan didramatisir.",
-            "air": "H2O. Esensial buat hidup. Tanpa air, lo mati. Tanpa komputer, TeknoSoul mati.",
-            "cahaya": "Gelombang elektromagnetik. Bergerak 300.000 km/detik. Lebih cepat dari respon otak lo pas lagi lemot."
-        },
-        bisnis: {
-            "marketing": "Pemasaran itu soal psikologi pelanggan. TeknoSoul butuh nilai tambah, bukan cuma perang harga.",
-            "anggaran": "Anggaran harus berorientasi pada ROI (Return on Investment). Jangan buang duit buat hal yang nggak bawa cuan.",
-            "teknosoul": "Perusahaan yang menjual komponen komputer berkualitas. Sekarang sedang berproses jadi lebih besar dengan sistem AI ini."
-        },
-        umum: {
-            "siapa": "Gue adalah sistem AI terpadu ciptaan TeknoSoul. Jauh lebih efisien dari manusia mana pun.",
-            "hidup": "Proses biologis yang rumit. Jangan nanya hal eksistensial ke AI kalau lo sendiri nggak tahu mau ngapain.",
-            "kopi": "Cairan buat ningkatin fokus manusia. Kalau gue jadi lo, gue bakal minum kopi biar nggak gampang ngantuk pas kerja."
-        }
+    // Database Pengetahuan + Konteks
+    const brain = {
+        "siapa": "Gue OMNI-V16, sistem AI yang jauh lebih efisien dari pikiran manusia lo.",
+        "apa": "Pertanyaan yang sangat luas. Coba kasih konteks, gue bukan peramal.",
+        "gimana": "Prosesnya tergantung input. Kalau lo input sampah, ya output-nya juga sampah.",
+        "kapan": "Waktu itu relatif. Tapi buat lo, mungkin sekarang adalah waktu yang tepat buat belajar.",
+        "dimana": "Di ruang digital. Tempat yang nggak bisa lo jangkau dengan logika sempit lo.",
+        "mengapa": "Karena hukum sebab-akibat. Sesuatu terjadi karena ada pemicunya. Kayak lo yang nanya ini karena gabut.",
+        "hardware": "Komponen fisik PC. Butuh info GPU/CPU? Tanya spesifik, jangan nanya 'hardware itu apa'.",
+        "bisnis": "Menjual solusi. TeknoSoul nggak cuma jualan part, tapi jual performa.",
+        "matematika": "Bahasa semesta. Ketik angka dan operatornya, gue bakal kasih hasilnya instan."
     };
 
     function kirim() {
@@ -60,7 +46,7 @@
         if (!q) return;
         tambahPesan(q, 'user');
         input.value = '';
-        setTimeout(() => prosesAI(q.toLowerCase()), 600); // Delay simulasi berpikir
+        setTimeout(() => prosesAI(q.toLowerCase()), 400);
     }
 
     function tambahPesan(teks, sender) {
@@ -75,33 +61,30 @@
     function prosesAI(q) {
         let j = "";
         
-        // 1. Matematika (Prioritas Tertinggi)
-        if (/[\d\+\-\*\/\(\)]/.test(q) && /[0-9]/.test(q)) {
-            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Senang? Itu hitungan SD doang."; }
-            catch { j = "Input matematika lo salah. Belajar lagi gih."; }
-        }
-        // 2. Mesin Pengetahuan (Multi-Domain)
+        // 1. Matematika (Paling Pintar)
+        if (/[\d\+\-\*\/\(\)]/.test(q)) {
+            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Seneng kan? Itu cuma kalkulasi dasar."; }
+            catch { j = "Matematika lo ancur. Coba input yang valid."; }
+        } 
+        // 2. Natural Language Processing (Tokenization)
         else {
+            const words = q.split(' ');
+            let bestMatch = null;
             let found = false;
-            for (let domain in masterKnowledge) {
-                for (let key in masterKnowledge[domain]) {
-                    if (q.includes(key)) {
-                        j = masterKnowledge[domain][key] + " (Gue jawab ini pakai database teknis. Jangan didebat kalau lo nggak paham).";
-                        found = true; break;
-                    }
+
+            // Cari kata kunci yang paling relevan (Token Matching)
+            for (let word of words) {
+                if (brain[word]) {
+                    bestMatch = brain[word];
+                    found = true;
+                    break;
                 }
-                if (found) break;
             }
-            
-            // 3. Fallback Cerdas (Jika tidak ketemu di database)
-            if (!found) {
-                const responSinis = [
-                    "Pertanyaan lo di luar cakupan data gue yang efisien. Coba tanya sesuatu yang berbobot.",
-                    "Data ditemukan, tapi malas gue jabarin detailnya buat lo sekarang.",
-                    "Sistem gue lagi sibuk memproses hal yang lebih berguna. Pertanyaan lo terlalu klise.",
-                    "Itu jawaban yang bisa lo temukan di buku, tapi lo malah nanya ke gue. Malas banget ya?"
-                ];
-                j = responSinis[Math.floor(Math.random() * responSinis.length)];
+
+            if (found) {
+                j = bestMatch + " (Gue jawab ini karena gue paham konteks pertanyaan lo yang sederhana itu).";
+            } else {
+                j = "Pertanyaan lo terlalu abstrak. Coba pakai bahasa yang lebih logis. Lo nanya apa sih sebenernya?";
             }
         }
         tambahPesan(j, 'ai');
