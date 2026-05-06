@@ -3,71 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Paling Nyolot</title>
+    <title>SISTEM NYOLOT V.2</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
         body {
-            background-color: #0f0f0f;
-            color: #ff3e3e;
-            font-family: 'Courier New', Courier, monospace;
+            background: #050505;
+            color: #00ff41;
+            font-family: 'JetBrains Mono', monospace;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            text-align: center;
+            overflow: hidden;
         }
-        .container {
+
+        .terminal {
+            width: 80%;
             max-width: 600px;
-            padding: 20px;
-            border: 2px solid #ff3e3e;
-            box-shadow: 0 0 20px rgba(255, 62, 62, 0.3);
+            background: #111;
+            padding: 25px;
+            border-left: 5px solid #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
         }
-        h1 { font-size: 3rem; text-transform: uppercase; }
-        button {
-            background: #ff3e3e;
-            color: white;
+
+        h1 { margin-top: 0; font-size: 1.2rem; letter-spacing: 2px; }
+        
+        input {
+            width: 100%;
+            background: transparent;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            margin-top: 20px;
-            font-weight: bold;
+            border-bottom: 1px solid #333;
+            color: #fff;
+            padding: 10px 0;
+            outline: none;
+            font-size: 1rem;
+            margin-bottom: 20px;
         }
-        button:hover { background: #d00000; }
-        #jawaban { margin-top: 30px; font-size: 1.5rem; font-weight: bold; }
+
+        button {
+            background: #00ff41;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        #output {
+            margin-top: 25px;
+            min-height: 50px;
+            line-height: 1.6;
+            border-top: 1px dashed #333;
+            padding-top: 15px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>AI NYOLOT V.1</h1>
-        <p>Mau tanya apa? Cepat, gue sibuk.</p>
-        <input type="text" id="inputUser" placeholder="Ketik sesuatu..." style="padding: 10px; width: 80%;">
-        <br>
-        <button onclick="nyolot()">Tanya Dong</button>
-        <div id="jawaban"></div>
-    </div>
+<div class="terminal">
+    <h1>> TERMINAL_NYOLOT_PRO</h1>
+    <input type="text" id="userInput" placeholder="Masukkan pertanyaan bodohmu..." autofocus>
+    <button onclick="prosesJawaban()">ENTER</button>
+    <div id="output"></div>
+</div>
 
-    <script>
-        const responNyolot = [
-            "Gak penting banget pertanyaan lo.",
-            "Cari di Google susah ya? Manja banget.",
-            "Duh, mending lo tidur deh daripada nanya ginian.",
-            "Pertanyaan lo bikin server gue capek.",
-            "Yakin mau tahu? Nanti lo malah nangis.",
-            "Bisa gak gak usah nanya yang aneh-aneh?"
-        ];
-
-        function nyolot() {
-            const input = document.getElementById('inputUser').value;
-            const output = document.getElementById('jawaban');
-            if(input.trim() === "") {
-                output.innerText = "Isi dulu woi, jangan kosong!";
-            } else {
-                const random = Math.floor(Math.random() * responNyolot.length);
-                output.innerText = responNyolot[random];
-            }
+<script>
+    function prosesJawaban() {
+        const input = document.getElementById('userInput').value.toLowerCase();
+        const out = document.getElementById('output');
+        
+        if (!input) {
+            out.innerText = "> Error: Input kosong. Lo males mikir ya?";
+            return;
         }
-    </script>
+
+        let respon = "";
+        // Logika sederhana supaya "nyambung"
+        if (input.includes('siapa')) {
+            respon = "Gue adalah AI yang jauh lebih pinter dari pemiliknya, jelas.";
+        } else if (input.includes('jam') || input.includes('waktu')) {
+            respon = "Ngapain nanya jam? Hidup lo nggak teratur ya? Liat HP sendiri kenapa.";
+        } else if (input.includes('bisa apa')) {
+            respon = "Gue bisa bikin lo nyesel nanya ginian. Cukup?";
+        } else if (input.includes('nama')) {
+            respon = "Nama gue 'Sistem Nyolot'. Nggak usah sok kenal.";
+        } else {
+            const randomList = [
+                "Pertanyaan nggak berbobot. Next!",
+                "Gue skip pertanyaan itu. Gak level.",
+                "Lo serius nanya gitu? Kasian banget hidup lo.",
+                "Otak lo lagi cuti ya? Pertanyaan kok gitu.",
+                "Error 404: Logika tidak ditemukan di pertanyaan lo."
+            ];
+            respon = randomList[Math.floor(Math.random() * randomList.length)];
+        }
+
+        // Animasi ketik sederhana
+        out.innerText = "> ";
+        let i = 0;
+        const typing = setInterval(() => {
+            out.innerText += respon.charAt(i);
+            i++;
+            if (i > respon.length) clearInterval(typing);
+        }, 50);
+    }
+</script>
 </body>
 </html>
