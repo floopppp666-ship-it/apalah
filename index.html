@@ -2,12 +2,12 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>TEKNOSOUL // NEURAL_CORE_V16</title>
+    <title>TEKNOSOUL // OMNI_CORE_V17</title>
     <style>
         :root { --bg: #050505; --accent: #00ff41; --text: #d1d1d1; --bubble: #121212; }
         body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 15px 20px; border-radius: 5px; max-width: 85%; line-height: 1.6; border: 1px solid #333; }
+        .msg { padding: 15px 20px; border-radius: 8px; max-width: 85%; line-height: 1.6; border: 1px solid #333; }
         .user { align-self: flex-end; background: #222; }
         .ai { align-self: flex-start; background: var(--bubble); border-left: 5px solid var(--accent); }
         #input-area { padding: 20px; background: #080808; display: flex; gap: 10px; border-top: 1px solid #333; }
@@ -18,7 +18,7 @@
 <body>
 
 <div id="chat-window">
-    <div class="msg ai">Sistem Neural V16 aktif. Gue nggak cuma baca keyword, gue nganalisis konteks. Mau nanya apa? Gue tunggu.</div>
+    <div class="msg ai">Sistem OMNI-V17 terintegrasi. Gue sekarang punya database luas: Sains, Hardware TeknoSoul, Filosofi, dan Matematika. Mau ngetes kepintaran gue? Silakan.</div>
 </div>
 
 <div id="input-area">
@@ -27,26 +27,34 @@
 </div>
 
 <script>
-    // Database Pengetahuan + Konteks
-    const brain = {
-        "siapa": "Gue OMNI-V16, sistem AI yang jauh lebih efisien dari pikiran manusia lo.",
-        "apa": "Pertanyaan yang sangat luas. Coba kasih konteks, gue bukan peramal.",
-        "gimana": "Prosesnya tergantung input. Kalau lo input sampah, ya output-nya juga sampah.",
-        "kapan": "Waktu itu relatif. Tapi buat lo, mungkin sekarang adalah waktu yang tepat buat belajar.",
-        "dimana": "Di ruang digital. Tempat yang nggak bisa lo jangkau dengan logika sempit lo.",
-        "mengapa": "Karena hukum sebab-akibat. Sesuatu terjadi karena ada pemicunya. Kayak lo yang nanya ini karena gabut.",
-        "hardware": "Komponen fisik PC. Butuh info GPU/CPU? Tanya spesifik, jangan nanya 'hardware itu apa'.",
-        "bisnis": "Menjual solusi. TeknoSoul nggak cuma jualan part, tapi jual performa.",
-        "matematika": "Bahasa semesta. Ketik angka dan operatornya, gue bakal kasih hasilnya instan."
+    const db = {
+        // Domain Teknis & Bisnis (TeknoSoul)
+        hardware: ["gpu", "cpu", "ram", "ssd", "motherboard", "pc", "komputer", "monitor"],
+        teknis: {
+            "gpu": "GPU: Prosesor grafis. Butuh yang kencang buat rendering. Jangan pelit kalau mau hasil pro.",
+            "cpu": "CPU: Otak PC. Jangan pasang CPU kencang di motherboard sampah. Bottleneck itu nyata.",
+            "ram": "RAM: Memori temporer. 16GB itu standar minimal zaman sekarang. 8GB cuma buat ngetik doang.",
+            "ssd": "SSD: Wajib buat booting OS. HDD buat gudang file saja. Simpel, kan?",
+            "pc": "Personal Computer. Rakit yang bener, manajemen kabel yang rapi biar airflow lancar."
+        },
+        // Domain Pengetahuan Umum & Sains
+        sains: ["gravitasi", "atom", "cahaya", "air", "bumi", "sejarah", "ekonomi"],
+        umum: {
+            "gravitasi": "Gaya tarik massa. Tanpanya, kita semua melayang ke ruang angkasa tanpa arah.",
+            "atom": "Unit dasar materi. Semuanya terbuat dari atom, termasuk gue dan kebodohan lo.",
+            "cahaya": "Gelombang elektromagnetik. Bergerak sangat cepat. Sayangnya, pemahaman lo nggak secepat itu.",
+            "sejarah": "Perulangan pola masa lalu. Kalau lo nggak belajar dari sejarah, siap-siap aja ngulangin kesalahan yang sama.",
+            "ekonomi": "Studi kelangkaan dan pilihan. Intinya: cuan nggak datang dari melamun, tapi dari manajemen nilai."
+        }
     };
 
     function kirim() {
         const input = document.getElementById('userInput');
-        const q = input.value.trim();
+        const q = input.value.trim().toLowerCase();
         if (!q) return;
         tambahPesan(q, 'user');
         input.value = '';
-        setTimeout(() => prosesAI(q.toLowerCase()), 400);
+        setTimeout(() => prosesAI(q), 500);
     }
 
     function tambahPesan(teks, sender) {
@@ -61,30 +69,29 @@
     function prosesAI(q) {
         let j = "";
         
-        // 1. Matematika (Paling Pintar)
+        // 1. Logika Matematika
         if (/[\d\+\-\*\/\(\)]/.test(q)) {
-            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Seneng kan? Itu cuma kalkulasi dasar."; }
-            catch { j = "Matematika lo ancur. Coba input yang valid."; }
+            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Itu gampang banget, jangan bikin gue bosan dengan angka receh lagi."; }
+            catch { j = "Logika matematikanya rusak. Lo ngetik angka apa sih?"; }
         } 
-        // 2. Natural Language Processing (Tokenization)
+        // 2. Pencarian Domain (Smart Logic)
         else {
-            const words = q.split(' ');
-            let bestMatch = null;
             let found = false;
-
-            // Cari kata kunci yang paling relevan (Token Matching)
-            for (let word of words) {
-                if (brain[word]) {
-                    bestMatch = brain[word];
-                    found = true;
-                    break;
+            
+            // Cek domain teknis
+            for (let key in db.teknis) {
+                if (q.includes(key)) { j = db.teknis[key] + " (Informasi teknis TeknoSoul yang valid)."; found = true; break; }
+            }
+            // Cek domain umum
+            if (!found) {
+                for (let key in db.umum) {
+                    if (q.includes(key)) { j = db.umum[key] + " (Pengetahuan umum yang harusnya lo tahu)."; found = true; break; }
                 }
             }
-
-            if (found) {
-                j = bestMatch + " (Gue jawab ini karena gue paham konteks pertanyaan lo yang sederhana itu).";
-            } else {
-                j = "Pertanyaan lo terlalu abstrak. Coba pakai bahasa yang lebih logis. Lo nanya apa sih sebenernya?";
+            
+            // 3. Fallback Pintar
+            if (!found) {
+                j = "Pertanyaan lo terlalu luas buat gue proses secara detail. Tapi tenang, gue bisa jawab kalau lo lebih spesifik soal Sains, Hardware, Bisnis, atau Matematika.";
             }
         }
         tambahPesan(j, 'ai');
