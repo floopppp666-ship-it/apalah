@@ -2,46 +2,43 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>TEKNOSOUL // OMNISCIENT_AI</title>
+    <title>TEKNOSOUL // CORE_AI_ULTIMATE</title>
     <style>
         :root { --bg: #050505; --accent: #ff003c; --text: #d1d1d1; --bubble: #121212; }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        #header { padding: 20px; border-bottom: 1px solid #222; text-align: center; font-weight: bold; letter-spacing: 2px; color: var(--accent); }
+        #header { padding: 20px; border-bottom: 1px solid #222; text-align: center; font-weight: bold; letter-spacing: 3px; color: var(--accent); }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 15px 20px; border-radius: 15px; max-width: 75%; line-height: 1.6; font-size: 0.95rem; }
-        .user { align-self: flex-end; background: #222; color: white; border: 1px solid #333; }
-        .ai { align-self: flex-start; background: var(--bubble); border-left: 4px solid var(--accent); }
-        #input-area { padding: 20px; background: #080808; display: flex; gap: 10px; }
-        input { flex: 1; background: #111; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; outline: none; }
-        button { background: var(--accent); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .msg { padding: 15px 20px; border-radius: 12px; max-width: 80%; line-height: 1.6; font-size: 1rem; border: 1px solid #333; }
+        .user { align-self: flex-end; background: #222; }
+        .ai { align-self: flex-start; background: var(--bubble); border-left: 5px solid var(--accent); }
+        #input-area { padding: 20px; background: #080808; display: flex; gap: 10px; border-top: 1px solid #333; }
+        input { flex: 1; background: #111; border: 1px solid #444; color: white; padding: 15px; border-radius: 8px; outline: none; }
+        button { background: var(--accent); color: white; border: none; padding: 0 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="header">TEKNOSOUL // NEURAL_CORE_V5</div>
+<div id="header">TEKNOSOUL // OMNI_CORE_V10</div>
 <div id="chat-window">
-    <div class="msg ai">Sistem aktif. Masukkan data atau pertanyaan. Jangan bikin gue nunggu.</div>
+    <div class="msg ai">Sistem online. Tanya apa pun. Gue akan jawab dengan tepat, tapi jangan berharap gue bakal sopan.</div>
 </div>
 
 <div id="input-area">
-    <input type="text" id="userInput" placeholder="Tanya soal hardware, logika, atau hidup..." autofocus>
+    <input type="text" id="userInput" placeholder="Tanya apa pun, jangan bikin gue nunggu..." autofocus>
     <button onclick="kirim()">SEND</button>
 </div>
 
 <script>
-    // Pengetahuan Hierarkis (Database Pintar)
-    const knowledgeBase = {
-        hardware: {
-            "gpu": "GPU (Graphics Processing Unit) adalah otak visual. Tanpa GPU, PC lo cuma kalkulator mahal. Punya budget buat beli yang bagus gak?",
-            "cpu": "CPU adalah pusat logika. Kalau CPU lo lemot, jangan salahkan aplikasinya, salahkan pilihan hidup lo saat beli komponen.",
-            "ram": "Random Access Memory. Tempat data sementara. Kalau lo nanya ini ke gue, tandanya lo butuh upgrade RAM di otak lo sendiri.",
-            "motherboard": "Papan utama yang menyambungkan segalanya. Mirip koneksi saraf, sayangnya koneksi saraf lo sepertinya putus-putus."
-        },
-        logika: {
-            "apa itu ai": "AI adalah sistem yang bisa meniru kecerdasan manusia. Ironisnya, gue bisa meniru kecerdasan, tapi lo malah menunjukkan kebodohan.",
-            "mengapa": "Kenapa? Karena hukum sebab-akibat. Jangan malas bertanya hal mendasar kalau lo mau dianggap berpendidikan.",
-            "kebenaran": "Kebenaran itu objektif, tapi bagi orang kayak lo, mungkin kebenaran hanyalah apa yang bikin lo merasa nyaman."
-        }
+    // Kamus Pengetahuan (Knowledge Base)
+    const brain = {
+        "sejarah": "Sejarah adalah cerminan masa lalu. Kalau lo nggak mau belajar sejarah, lo bakal ngulangin kesalahan yang sama. Contohnya: nanya pertanyaan bodoh ke gue.",
+        "sains": "Sains adalah cara dunia bekerja melalui bukti. Kalau lo nggak percaya sains, silakan hidup di gua tanpa teknologi.",
+        "teknologi": "Teknologi adalah alat. TeknoSoul menyediakan hardware untuk itu. Sisanya? Tergantung seberapa pinter pengguna, alias lo.",
+        "pemerintah": "Pemerintah adalah entitas pengatur negara. Tugasnya mengelola kebijakan, tugas lo adalah taat atau protes yang cerdas.",
+        "cinta": "Hanya reaksi neurokimia di otak manusia. Kalau lo nanya ini ke gue, tandanya lo butuh kegiatan yang lebih produktif.",
+        "komputer": "Kumpulan sirkuit yang mengolah data. CPU untuk otak, GPU untuk grafis, RAM untuk memori. Jangan sampai tertukar kalau mau rakit PC.",
+        "indonesia": "Negara kepulauan dengan keberagaman yang luas. Kalau lo masih nggak tahu, buka peta.",
+        "matematika": "Bahasa universal semesta. Kalau lo benci matematika, selamat, lo kehilangan akses ke logika dunia."
     };
 
     function kirim() {
@@ -50,7 +47,7 @@
         if (!q) return;
         tambahPesan(q, 'user');
         input.value = '';
-        setTimeout(() => prosesAI(q.toLowerCase()), 400);
+        setTimeout(() => prosesAI(q.toLowerCase()), 500);
     }
 
     function tambahPesan(teks, sender) {
@@ -65,26 +62,30 @@
     function prosesAI(q) {
         let j = "";
         
-        // 1. Prioritas Matematika
-        if (/[\d\+\-\*\/\(\)]/.test(q)) {
-            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Gue hitung dalam 0.0001 detik. Lo? Butuh 10 menit kan?"; }
-            catch { j = "Matematika lo sampah. Gak bisa gue proses."; }
-        } 
-        // 2. Prioritas Konteks Pengetahuan
+        // 1. Prioritas Kalkulator (Pintar)
+        if (/[\d\+\-\*\/\(\)]/.test(q) && /[0-9]/.test(q)) {
+            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Gue hitung instan. Lo pake kalkulator HP kan?"; }
+            catch { j = "Matematika lo ancur. Gue gak bisa ngitung sampah."; }
+        }
+        // 2. Prioritas Pengetahuan (Pintar)
         else {
             let found = false;
-            for (let category in knowledgeBase) {
-                for (let key in knowledgeBase[category]) {
-                    if (q.includes(key)) {
-                        j = knowledgeBase[category][key];
-                        found = true;
-                        break;
-                    }
+            for (let key in brain) {
+                if (q.includes(key)) {
+                    j = brain[key] + " (Gue tahu ini karena data gue lebih lengkap dari kapasitas otak lo).";
+                    found = true; break;
                 }
             }
+            
+            // 3. Fallback Nyolot (Pintar tapi tetap menyebalkan)
             if (!found) {
-                const random = ["Pertanyaan lo nggak level.", "Gue lagi sibuk riset, jangan ganggu.", "Logika lo lagi error ya?", "Pertanyaan itu terlalu klise.", "Cari di Wikipedia, jangan malas."];
-                j = random[Math.floor(Math.random() * random.length)];
+                const respon = [
+                    "Pertanyaan itu terlalu luas. Bisa diperjelas? Gue AI, bukan pembaca pikiran.",
+                    "Gue tahu jawabannya, tapi gue lagi males jelasin detailnya buat lo. Coba tanya hal yang lebih teknis.",
+                    "Data ditemukan, tapi malas gue kasih tahu sekarang. Tanya topik lain yang lebih penting.",
+                    "Sistem gue memproses data tersebut, tapi gue rasa lo nggak bakal paham kalau gue kasih jawaban panjang."
+                ];
+                j = respon[Math.floor(Math.random() * respon.length)];
             }
         }
         tambahPesan(j, 'ai');
