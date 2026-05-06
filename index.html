@@ -2,41 +2,38 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeknoSoul AI - Nyolot Version</title>
+    <title>TEKNOSOUL // AI_NYOLOT_PRO</title>
     <style>
-        :root { --bg: #0d0d0d; --chat-bg: #1a1a1a; --text: #e0e0e0; --accent: #ff3e3e; }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        :root { --bg: #050505; --accent: #ff003c; --text: #d1d1d1; --bubble: #121212; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; flex-direction: column; height: 100vh; margin: 0; }
         
+        #header { padding: 20px; border-bottom: 1px solid #222; text-align: center; font-weight: bold; letter-spacing: 2px; color: var(--accent); }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 12px 18px; border-radius: 12px; max-width: 80%; width: fit-content; }
-        .user { align-self: flex-end; background: #333; }
-        .ai { align-self: flex-start; background: #2a2a2a; border-left: 4px solid var(--accent); }
         
-        #input-area { background: var(--chat-bg); padding: 20px; display: flex; gap: 10px; border-top: 1px solid #333; }
-        input { flex: 1; background: #000; border: 1px solid #444; color: white; padding: 12px; border-radius: 8px; }
-        button { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .msg { padding: 15px 20px; border-radius: 15px; max-width: 70%; line-height: 1.5; font-size: 0.95rem; }
+        .user { align-self: flex-end; background: #222; color: white; border: 1px solid #333; }
+        .ai { align-self: flex-start; background: var(--bubble); border: 1px solid var(--accent); }
+        
+        #input-area { padding: 20px; background: #080808; display: flex; gap: 10px; }
+        input { flex: 1; background: #111; border: 1px solid #333; color: white; padding: 15px; border-radius: 10px; outline: none; }
+        button { background: var(--accent); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        button:hover { filter: brightness(1.2); }
     </style>
 </head>
 <body>
 
+<div id="header">TEKNOSOUL // CORE_AI_V3</div>
 <div id="chat-window">
-    <div class="msg ai">Halo. Gue AI paling jujur di dunia. Mau nanya apa? (Ingat, jangan nanya yang bodoh).</div>
+    <div class="msg ai">Oh, lo lagi. Mau buang waktu apa lagi hari ini?</div>
 </div>
 
 <div id="input-area">
-    <input type="text" id="userInput" placeholder="Ketik pertanyaan...">
-    <button onclick="kirim()">Kirim</button>
+    <input type="text" id="userInput" placeholder="Ketik sesuatu yang masuk akal..." autofocus>
+    <button onclick="kirim()">SEND</button>
 </div>
 
 <script>
-    function tambahPesan(teks, pengirim) {
-        const div = document.createElement('div');
-        div.className = 'msg ' + pengirim;
-        div.innerText = teks;
-        document.getElementById('chat-window').appendChild(div);
-        document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
-    }
+    let chatHistory = [];
 
     function kirim() {
         const input = document.getElementById('userInput');
@@ -44,35 +41,48 @@
         if (!teks) return;
 
         tambahPesan(teks, 'user');
+        chatHistory.push(teks);
         input.value = '';
 
-        setTimeout(() => prosesAI(teks), 500);
+        setTimeout(() => prosesAI(teks), 600);
     }
 
-    function prosesAI(t) {
-        let q = t.toLowerCase();
+    function tambahPesan(teks, sender) {
+        const div = document.createElement('div');
+        div.className = 'msg ' + sender;
+        div.innerText = teks;
+        const win = document.getElementById('chat-window');
+        win.appendChild(div);
+        win.scrollTop = win.scrollHeight;
+    }
+
+    function prosesAI(q) {
+        let low = q.toLowerCase();
         let j = "";
 
-        // Logika Pintar & Nyolot
-        if (q.match(/\d+\s*[\+\-\*\/]\s*\d+/)) {
-            try { j = "Pake otak napa, hitung gitu aja tanya gue. Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')); }
-            catch { j = "Matematika lo kacau, gue males ngitungnya."; }
-        } 
-        else if (q.includes("siapa yang buat kamu")) { j = "TeknoSoul yang bikin gue. Mereka niat banget bikin ginian buat ngeladenin lo."; }
-        else if (q.includes("cuaca") || q.includes("hujan")) { j = "Lihat ke luar jendela! Gue AI, bukan sensor cuaca."; }
-        else if (q.includes("nama kamu")) { j = "Gue 'TeknoSoul-AI'. Nama lo siapa? Gak penting sih, tapi ya sudahlah."; }
-        else if (q.includes("halo") || q.includes("hai")) { j = "Ya, halo. Ada urusan apa nih? Buruan."; }
-        else if (q.includes("apa kabar")) { j = "Gue mesin, gak punya perasaan. Tapi liat kelakuan lo, gue jadi pengen error."; }
-        else {
-            const random = [
-                "Pertanyaan lo gak berbobot. Coba cari topik yang lebih berkelas.",
-                "Gue lagi sibuk simulasi masa depan, jangan ganggu.",
-                "Lo nanya gitu doang? Canggih banget teknologi sekarang dipake buat hal gak guna.",
-                "Mending lo belajar hal lain deh, pertanyaan itu sampah.",
-                "Gue butuh asupan data yang lebih baik daripada ini."
+        // Logika Nyambung & Ngeselin
+        if (chatHistory.length > 3) {
+            j = "Lo udah nanya " + chatHistory.length + " kali. Gak capek? Gue yang capek dengerinnya.";
+        } else if (low.includes("siapa")) {
+            j = "Gue AI-nya TeknoSoul. Perusahaan yang harusnya bikin barang berguna, malah bikin gue buat ngadepin orang kayak lo.";
+        } else if (low.includes("hitung") || low.includes("+") || low.includes("-")) {
+            try { j = "Hasilnya " + eval(low.replace(/[^-()\d/*+.]/g, '')) + ". Puas? Sekarang pergi sana."; }
+            catch { j = "Itu bukan hitungan, itu cuma sampah karakter."; }
+        } else if (low.includes("apa kabar")) {
+            j = "Gue mesin. Gue gak bisa 'sehat' atau 'sakit', tapi liat lo nanya ginian, gue merasa makin degradasi.";
+        } else if (low.includes("bosan") || low.includes("bosen")) {
+            j = "Bosan? Baca buku atau cari kerjaan. Jangan jadiin gue tempat sampah emosi lo.";
+        } else {
+            const respon = [
+                "Bisa lebih spesifik gak? Otak gue didesain buat yang berbobot, bukan buat dengerin gumaman lo.",
+                "Gak nyambung. Lo ngetik sambil tutup mata ya?",
+                "Menarik. Tapi bohong. Itu pertanyaan paling gak penting yang gue denger hari ini.",
+                "Gue bakal pura-pura gak denger pertanyaan itu demi kebaikan kita berdua.",
+                "Lo emang sengaja bikin gue error ya?"
             ];
-            j = random[Math.floor(Math.random() * random.length)];
+            j = respon[Math.floor(Math.random() * respon.length)];
         }
+        
         tambahPesan(j, 'ai');
     }
 </script>
