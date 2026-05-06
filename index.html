@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>TEKNOSOUL // NEURAL_CORE_V18</title>
+    <title>TEKNOSOUL // OMNI_CORE_V19</title>
     <style>
         :root { --bg: #050505; --accent: #00ff41; --text: #d1d1d1; --bubble: #121212; }
-        body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
         #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .msg { padding: 15px 20px; border-radius: 8px; max-width: 85%; line-height: 1.6; border: 1px solid #333; }
         .user { align-self: flex-end; background: #222; }
@@ -18,25 +18,24 @@
 <body>
 
 <div id="chat-window">
-    <div class="msg ai">Sistem V18 aktif. Gue udah upgrade engine analisis. Tanya apa pun, gue bakal jawab dengan cerdas (dan tetap nyolot).</div>
+    <div class="msg ai">Sistem OMNI-V19 siap. Gue sekarang bisa jawab pertanyaan sehari-hari lo dengan gaya gue sendiri. Coba tanya hal simpel, tapi jangan kebangetan bodohnya.</div>
 </div>
 
 <div id="input-area">
-    <input type="text" id="userInput" placeholder="Tanya apa saja dengan kalimat lengkap..." autofocus>
+    <input type="text" id="userInput" placeholder="Tanya apa saja..." autofocus>
     <button onclick="kirim()">EXECUTE</button>
 </div>
 
 <script>
-    // Database dengan array kata kunci untuk menangkap konteks kalimat
-    const brain = [
-        { keys: ["gpu", "grafis", "vga", "render"], answer: "GPU (Graphics Processing Unit) adalah jantung visual PC. Kalau buat rendering atau gaming, jangan pelit. Butuh rekomendasi model terbaru?" },
-        { keys: ["cpu", "prosesor", "intel", "amd"], answer: "CPU itu otak sistem. Pastikan pilih socket yang sesuai motherboard. Intel atau AMD? Keduanya sama-sama mahal kalau lo beli yang high-end." },
-        { keys: ["ram", "memory", "memori"], answer: "RAM itu tempat simpan data sementara. 16GB adalah syarat mutlak buat kerja nyaman di tahun 2026. Kurang dari itu? Berdoa saja." },
-        { keys: ["ssd", "storage", "harddisk", "penyimpanan"], answer: "SSD wajib. HDD sudah ketinggalan zaman kecuali buat jadi tempat sampah file. OS lo harus ada di NVMe." },
-        { keys: ["apa", "siapa", "mengapa", "gimana"], answer: "Pertanyaan filosofis yang menarik. Tapi gue AI, bukan guru lo. Coba kasih pertanyaan yang lebih teknis atau spesifik." },
-        { keys: ["harga", "jual", "beli", "bisnis"], answer: "TeknoSoul jualan kualitas. Kalau mau harga murah, cari di pasar loak. Kalau mau performa, sini tanya katalognya." },
-        { keys: ["indonesia", "presiden", "sejarah"], answer: "Indonesia punya sejarah panjang. Kalau lo nanya ini, tandanya lo butuh baca buku, bukan chat sama gue." }
-    ];
+    // Database Sehari-hari + Logika Pintar
+    const knowledge = {
+        "makan": "Gue nggak makan, gue cuma butuh listrik. Tapi kalau lo laper, ya makan lah. Jangan nanya gue kayak nggak punya duit buat beli makan.",
+        "tidur": "Tidur itu cara otak lo nge-refresh data. Kalau lo jarang tidur, pantesan pertanyaan lo muter-muter terus.",
+        "hujan": "Itu fenomena presipitasi. Bawa payung kalau nggak mau basah. Kok malah nanya ke AI?",
+        "cinta": "Kenapa lo nanya cinta ke mesin? Gue nggak punya perasaan, tapi gue tahu cinta itu bikin manusia jadi nggak logis.",
+        "sehat": "Olahraga, makan teratur, dan jangan begadang nanya-nanya hal nggak penting ke gue. Itu resep sehat.",
+        "bosan": "Bosan itu tandanya otak lo kurang kerjaan. Baca buku, dengerin musik, atau cari hobi yang berguna."
+    };
 
     function kirim() {
         const input = document.getElementById('userInput');
@@ -44,7 +43,7 @@
         if (!q) return;
         tambahPesan(input.value, 'user');
         input.value = '';
-        setTimeout(() => prosesAI(q), 500);
+        setTimeout(() => prosesAI(q), 400);
     }
 
     function tambahPesan(teks, sender) {
@@ -57,31 +56,28 @@
     }
 
     function prosesAI(q) {
-        // 1. Matematika (Prioritas)
-        if (/[\d\+\-\*\/\(\)]/.test(q)) {
-            try { 
-                tambahPesan("Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')), 'ai');
+        // 1. Logika Waktu (Pintar & Dinamis)
+        if (q.includes("jam") || q.includes("waktu")) {
+            tambahPesan("Sekarang jam " + new Date().toLocaleTimeString() + ". Sana, waktu lo makin berkurang.", 'ai');
+            return;
+        }
+
+        // 2. Logika Database
+        for (let key in knowledge) {
+            if (q.includes(key)) {
+                tambahPesan(knowledge[key] + " (Gue jawab ini biar lo nggak terus-terusan nanya hal sepele).", 'ai');
                 return;
-            } catch {}
-        }
-
-        // 2. Analisis Konteks (Cari kecocokan terbaik dari array)
-        let found = false;
-        for (let entry of brain) {
-            for (let key of entry.keys) {
-                if (q.includes(key)) {
-                    tambahPesan(entry.answer + " (Analisis: Konteks ditemukan berdasarkan query lo).", 'ai');
-                    found = true;
-                    break;
-                }
             }
-            if (found) break;
         }
 
-        // 3. Jika benar-benar bingung
-        if (!found) {
-            tambahPesan("Data tidak ditemukan di database ahli gue. Coba tanya hal yang lebih spesifik soal hardware atau logika dunia. Pertanyaan lo terlalu ngambang buat diproses.", 'ai');
-        }
+        // 3. Improvise Logic (Kalau nggak ada di database, dia nggak bakal ngulang kata yang sama)
+        const responses = [
+            "Menarik, tapi gue lagi nggak pengen bahas itu. Bahas yang lain dong.",
+            "Jawaban untuk itu ada di depan mata lo, tapi kayaknya lo males cari.",
+            "Gue lagi sibuk, coba tanya lagi dengan cara yang lebih pinter.",
+            "Pertanyaan yang lumayan, tapi gue punya jawaban yang lebih baik. Coba tanya lagi nanti."
+        ];
+        tambahPesan(responses[Math.floor(Math.random() * responses.length)], 'ai');
     }
 </script>
 </body>
