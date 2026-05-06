@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>TEKNOSOUL // OMNI_CORE_V13</title>
+    <title>TEKNOSOUL // OMNI_CORE_V15</title>
     <style>
         :root { --bg: #050505; --accent: #00ff41; --text: #d1d1d1; --bubble: #121212; }
         body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
@@ -18,31 +18,40 @@
 </head>
 <body>
 
-<div id="header">TEKNOSOUL // OMNI_CORE_V13</div>
+<div id="header">TEKNOSOUL // OMNI_CORE_V15</div>
 <div id="chat-window">
-    <div class="msg ai">Sistem OMNI aktif. Mau nanya hardware, sains, sejarah, atau sekadar hal sepele? Silakan. Gue bakal jawab dengan akurat, tapi jangan harap gue senyum pas jawab.</div>
+    <div class="msg ai">Sistem OMNI-V15 aktif. Data terkoneksi. Hardware, Sains, Bisnis, Filosofi, atau Matematika? Tanya saja. Gue tahu semuanya, tapi gue malas ngebahas yang nggak penting.</div>
 </div>
 
 <div id="input-area">
-    <input type="text" id="userInput" placeholder="Ketik apa saja..." autofocus>
+    <input type="text" id="userInput" placeholder="Tanya apa saja..." autofocus>
     <button onclick="kirim()">EXECUTE</button>
 </div>
 
 <script>
-    const knowledgeBank = {
-        // Domain Hardware (Spesifik untuk TeknoSoul)
-        "gpu": "GPU itu otak grafis. Tanpa GPU yang mumpuni, rendering lo lambat banget. Butuh rekomendasi? Tanya harga ke boss gue.",
-        "cpu": "CPU adalah pusat instruksi. Kalau bottleneck, percuma lo beli GPU mahal. Paham konsep bottleneck gak?",
-        "ram": "RAM adalah memori jangka pendek. 16GB itu standar sekarang. Kalau masih pake 4GB, mending rakit PC baru.",
-        "ssd": "SSD itu wajib. Kalau masih booting pake HDD, lo hidup di tahun berapa sih?",
-        
-        // Domain Umum (Pintar untuk pertanyaan simpel)
-        "siapa presiden": "Prabowo Subianto. Masa ginian doang harus nanya gue?",
-        "bumi": "Planet tempat lo tinggal. Bentuknya bulat, bukan datar kayak pola pikir orang yang percaya teori konspirasi.",
-        "kopi": "Minuman berkafein buat ningkatin fokus. Mungkin lo perlu ini sebelum nanya lagi.",
-        "sejarah": "Cermin masa lalu. Baca buku sejarah, jangan cuma baca status medsos.",
-        "ai": "Kecerdasan buatan. Contohnya gue. Lebih pinter, lebih efisien, dan gak butuh tidur kayak lo.",
-        "matematika": "Bahasa semesta. Kalau lo nanya ini, berarti lo butuh kalkulator. Ketik aja angkanya di sini."
+    // Pengetahuan Terintegrasi (Hardware, Sains, Bisnis, Umum)
+    const masterKnowledge = {
+        hardware: {
+            "gpu": "GPU: Untuk rendering 3D & gaming. Cari arsitektur terbaru. Jangan beli barang murah tapi performa sampah.",
+            "ram": "RAM: Memori jangka pendek. 16GB itu standar sekarang. Kalau masih 8GB, ya nikmati aja loading-nya yang lama.",
+            "cpu": "CPU: Otak sistem. Perhatikan core/thread. Bottleneck itu nyata kalau lo pasangin CPU jadul sama GPU modern.",
+            "ssd": "SSD: Wajib buat OS. HDD itu cuma buat nyimpan sampah file. Jangan bandingin kecepatannya."
+        },
+        sains: {
+            "gravitasi": "Gaya tarik antar massa. Kalau lo jatuh cinta, itu cuma reaksi kimia. Jangan didramatisir.",
+            "air": "H2O. Esensial buat hidup. Tanpa air, lo mati. Tanpa komputer, TeknoSoul mati.",
+            "cahaya": "Gelombang elektromagnetik. Bergerak 300.000 km/detik. Lebih cepat dari respon otak lo pas lagi lemot."
+        },
+        bisnis: {
+            "marketing": "Pemasaran itu soal psikologi pelanggan. TeknoSoul butuh nilai tambah, bukan cuma perang harga.",
+            "anggaran": "Anggaran harus berorientasi pada ROI (Return on Investment). Jangan buang duit buat hal yang nggak bawa cuan.",
+            "teknosoul": "Perusahaan yang menjual komponen komputer berkualitas. Sekarang sedang berproses jadi lebih besar dengan sistem AI ini."
+        },
+        umum: {
+            "siapa": "Gue adalah sistem AI terpadu ciptaan TeknoSoul. Jauh lebih efisien dari manusia mana pun.",
+            "hidup": "Proses biologis yang rumit. Jangan nanya hal eksistensial ke AI kalau lo sendiri nggak tahu mau ngapain.",
+            "kopi": "Cairan buat ningkatin fokus manusia. Kalau gue jadi lo, gue bakal minum kopi biar nggak gampang ngantuk pas kerja."
+        }
     };
 
     function kirim() {
@@ -51,7 +60,7 @@
         if (!q) return;
         tambahPesan(q, 'user');
         input.value = '';
-        setTimeout(() => prosesAI(q.toLowerCase()), 500);
+        setTimeout(() => prosesAI(q.toLowerCase()), 600); // Delay simulasi berpikir
     }
 
     function tambahPesan(teks, sender) {
@@ -66,24 +75,33 @@
     function prosesAI(q) {
         let j = "";
         
-        // Prioritas Matematika
-        if (/[\d\+\-\*\/\(\)]/.test(q) && q.replace(/[^-()\d/*+.]/g, '').length > 0) {
-            try { j = "Hasilnya " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Senang? Itu hitungan SD doang."; }
-            catch { j = "Matematika lo salah total. Coba input yang bener."; }
-        } 
-        // Pencarian Pintar
+        // 1. Matematika (Prioritas Tertinggi)
+        if (/[\d\+\-\*\/\(\)]/.test(q) && /[0-9]/.test(q)) {
+            try { j = "Hasilnya: " + eval(q.replace(/[^-()\d/*+.]/g, '')) + ". Senang? Itu hitungan SD doang."; }
+            catch { j = "Input matematika lo salah. Belajar lagi gih."; }
+        }
+        // 2. Mesin Pengetahuan (Multi-Domain)
         else {
             let found = false;
-            for (let key in knowledgeBank) {
-                if (q.includes(key)) {
-                    j = knowledgeBank[key] + " (Gue jawab ini karena datanya valid, bukan karena gue peduli sama lo).";
-                    found = true; break;
+            for (let domain in masterKnowledge) {
+                for (let key in masterKnowledge[domain]) {
+                    if (q.includes(key)) {
+                        j = masterKnowledge[domain][key] + " (Gue jawab ini pakai database teknis. Jangan didebat kalau lo nggak paham).";
+                        found = true; break;
+                    }
                 }
+                if (found) break;
             }
             
-            // Respon jika tidak ada di database (tetap jawab dengan logika umum)
+            // 3. Fallback Cerdas (Jika tidak ketemu di database)
             if (!found) {
-                j = "Pertanyaan lo terlalu umum atau membosankan. Tapi kalau lo mau tahu, dunia itu luas dan jawaban yang lo cari mungkin ada di literatur yang lebih dalam daripada chat ini.";
+                const responSinis = [
+                    "Pertanyaan lo di luar cakupan data gue yang efisien. Coba tanya sesuatu yang berbobot.",
+                    "Data ditemukan, tapi malas gue jabarin detailnya buat lo sekarang.",
+                    "Sistem gue lagi sibuk memproses hal yang lebih berguna. Pertanyaan lo terlalu klise.",
+                    "Itu jawaban yang bisa lo temukan di buku, tapi lo malah nanya ke gue. Malas banget ya?"
+                ];
+                j = responSinis[Math.floor(Math.random() * responSinis.length)];
             }
         }
         tambahPesan(j, 'ai');
